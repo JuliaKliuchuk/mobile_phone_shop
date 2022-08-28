@@ -2,16 +2,16 @@ import 'dart:core';
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashPage extends StatefulWidget {
   final String nextRoute;
 
-  const SplashScreen({Key? key, required this.nextRoute}) : super(key: key);
+  const SplashPage({Key? key, required this.nextRoute}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _SplashScreenState();
+  State<StatefulWidget> createState() => _SplashPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
