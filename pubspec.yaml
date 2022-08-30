@@ -63,7 +63,10 @@ flutter:
     - assets/icons/wallet.svg
     - assets/icons/favorite.svg
     - assets/icons/profile.svg
-  #   - images/a_dot_ham.jpeg
+    - assets/icons/phone.svg
+    - assets/icons/computer.svg
+    - assets/icons/health.svg
+    - assets/icons/books.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

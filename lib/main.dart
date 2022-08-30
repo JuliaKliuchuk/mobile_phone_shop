@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_phone_shop/pages/home_page.dart';
+import 'package:mobile_phone_shop/pages/main_page.dart';
 import 'package:mobile_phone_shop/pages/splash_page.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
-    '/Home': (BuildContext context) => const HomePage(title: 'EVILEG')
+    '/Home': (BuildContext context) => const MainPage()
   };
 
   MyApp({super.key});
