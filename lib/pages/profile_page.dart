@@ -5,7 +5,7 @@ class ProflePage extends StatefulWidget {
   const ProflePage({Key? key}) : super(key: key);
 
   @override
-  _ProflePageState createState() => _ProflePageState();
+  State<ProflePage> createState() => _ProflePageState();
 }
 
 class _ProflePageState extends State<ProflePage> {

@@ -8,7 +8,7 @@ class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
 
   @override
-  _CustomBottomNavigationBarState createState() =>
+  State<CustomBottomNavigationBar> createState() =>
       _CustomBottomNavigationBarState();
 }
 
