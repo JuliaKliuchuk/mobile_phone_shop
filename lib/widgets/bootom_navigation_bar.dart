@@ -3,6 +3,7 @@ import 'package:mobile_phone_shop/pages/cart_page.dart';
 import 'package:mobile_phone_shop/pages/favorite_page.dart';
 import 'package:mobile_phone_shop/pages/profile_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_phone_shop/themes/custom_color.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
   const CustomBottomNavigationBar({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         bottomNavigationBar: Container(
           height: 72,
           decoration: const BoxDecoration(
-            color: Color.fromRGBO(1, 0, 53, 1),
+            color: CustomColors.darkBlue,
             borderRadius: BorderRadius.all(Radius.circular(30)),
           ),
           child: ClipRRect(
@@ -68,7 +69,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                     enableFeedback: false,
                     onPressed: () {
                       setState(() {
-                        selectedIndex = 1;
+                        selectedIndex = 0;
                       });
                     },
                     icon: walletIcon,
@@ -77,7 +78,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       enableFeedback: false,
                       onPressed: () {
                         setState(() {
-                          selectedIndex = 2;
+                          selectedIndex = 1;
                         });
                       },
                       icon: favoriteIcon),
@@ -85,7 +86,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
                       enableFeedback: false,
                       onPressed: () {
                         setState(() {
-                          selectedIndex = 3;
+                          selectedIndex = 2;
                         });
                       },
                       icon: profileIcon),

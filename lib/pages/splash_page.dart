@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile_phone_shop/themes/custom_color.dart';
 
 class SplashPage extends StatefulWidget {
   final String nextRoute;
@@ -23,7 +24,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(1, 0, 53, 1),
+      backgroundColor: CustomColors.darkBlue,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -37,7 +38,7 @@ class _SplashPageState extends State<SplashPage> {
                   margin: const EdgeInsets.only(left: 24.0),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Color.fromRGBO(255, 110, 78, 1),
+                    color: CustomColors.orange,
                   ),
                 ),
                 Container(
