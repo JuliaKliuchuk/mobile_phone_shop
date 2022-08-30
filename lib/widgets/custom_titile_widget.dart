@@ -16,11 +16,11 @@ class CustomTitleWidget extends StatelessWidget {
     return Container(
       margin: AppTheme.padding,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           CustomTextWidget(
             text: title,
           ),
+          const Spacer(),
           CustomTextWidget(
             text: subTitle,
             color: CustomColors.orange,

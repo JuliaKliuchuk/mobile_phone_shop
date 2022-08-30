@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_phone_shop/pages/home_page.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
 import 'package:mobile_phone_shop/widgets/bootom_navigation_bar.dart';
+import 'package:mobile_phone_shop/widgets/dropdown_widget.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key, this.title}) : super(key: key);
@@ -17,32 +18,9 @@ class _MainPageState extends State<MainPage> {
 
   Widget _appBar() {
     return Container(
-        padding: AppTheme.padding,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: <Widget>[
-        //       RotatedBox(
-        //         quarterTurns: 4,
-        //         child: _icon(Icons.sort, color: Colors.black54),
-        //       ),
-        //       ClipRRect(
-        //         borderRadius: BorderRadius.all(Radius.circular(13)),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //             color: Theme.of(context).backgroundColor,
-        //             boxShadow: const <BoxShadow>[
-        //               BoxShadow(
-        //                   color: Color(0xfff8f8f8),
-        //                   blurRadius: 10,
-        //                   spreadRadius: 10),
-        //             ],
-        //           ),
-        //           child: Image.asset("assets/user.png"),
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        child: const Text('title'));
+        width: AppTheme.fullWidth(context),
+        height: 50,
+        child: const DropdownWidget());
   }
 
   @override
@@ -67,8 +45,9 @@ class _MainPageState extends State<MainPage> {
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
-                    Expanded(
+                  children: <Widget>[
+                    _appBar(),
+                    const Expanded(
                       child: AnimatedSwitcher(
                         duration: Duration(milliseconds: 3),
                         switchInCurve: Curves.easeInToLinear,

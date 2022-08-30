@@ -67,6 +67,8 @@ flutter:
     - assets/icons/computer.svg
     - assets/icons/health.svg
     - assets/icons/books.svg
+    - assets/icons/place.svg
+    - assets/icons/filter.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
