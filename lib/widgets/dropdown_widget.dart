@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
-import 'package:mobile_phone_shop/themes/theme.dart';
 
 class DropdownWidget extends StatefulWidget {
   const DropdownWidget({Key? key}) : super(key: key);

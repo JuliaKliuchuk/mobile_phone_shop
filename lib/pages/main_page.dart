@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
   bool isHomePageSelected = true;
 
   Widget _appBar() {
-    return Container(
+    return SizedBox(
         width: AppTheme.fullWidth(context),
         height: 50,
         child: const DropdownWidget());
