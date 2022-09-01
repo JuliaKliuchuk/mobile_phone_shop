@@ -6,6 +6,7 @@ import 'package:mobile_phone_shop/model/data.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
 import 'package:mobile_phone_shop/widgets/custom_titile_widget.dart';
+import 'package:mobile_phone_shop/widgets/hot_sales_widget.dart';
 import 'package:mobile_phone_shop/widgets/select_category.dart';
 
 class HomePage extends StatefulWidget {
@@ -89,6 +90,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget _hotSales() {
+    return SizedBox(
+        width: AppTheme.fullWidth(context),
+        height: 182,
+        child: const HotSalesWidget());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -106,6 +114,15 @@ class _HomePageState extends State<HomePage> {
             ),
             _categoryWidget(),
             _search(),
+            const CustomTitleWidget(
+              title: 'Hot sales',
+              subTitle: 'see more',
+            ),
+            _hotSales(),
+            const CustomTitleWidget(
+              title: 'Best Seller',
+              subTitle: 'see more',
+            ),
           ],
         ),
       ),
