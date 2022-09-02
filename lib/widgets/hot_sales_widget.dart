@@ -28,8 +28,9 @@ class _HotSalesWidgetState extends State<HotSalesWidget> {
       future: futureStorelist,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          int count = snapshot.data?.homeStore.length ?? 0;
           return CarouselSlider.builder(
-              itemCount: snapshot.data?.homeStore.length,
+              itemCount: count,
               options: CarouselOptions(
                 aspectRatio: 1.2,
                 viewportFraction: 1,

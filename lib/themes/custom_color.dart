@@ -7,4 +7,5 @@ class CustomColors {
   static const Color orange = Color.fromRGBO(255, 110, 78, 1);
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color darkBlue = Color.fromRGBO(1, 0, 53, 1);
+  static const Color lightGrey = Color.fromRGBO(204, 204, 204, 1);
 }
