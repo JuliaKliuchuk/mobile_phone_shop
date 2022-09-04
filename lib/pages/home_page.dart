@@ -6,6 +6,7 @@ import 'package:mobile_phone_shop/model/data.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
 import 'package:mobile_phone_shop/widgets/custom_titile_widget.dart';
+import 'package:mobile_phone_shop/widgets/filter.dart';
 import 'package:mobile_phone_shop/widgets/hot_sales_widget.dart';
 import 'package:mobile_phone_shop/widgets/product_cart.dart';
 import 'package:mobile_phone_shop/widgets/select_category.dart';
@@ -105,6 +106,13 @@ class _HomePageState extends State<HomePage> {
         child: const ProductCardWidget());
   }
 
+  Widget _serchFilter() {
+    return SizedBox(
+      width: AppTheme.fullWidth(context),
+      child: const FilterWidget(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -127,10 +135,11 @@ class _HomePageState extends State<HomePage> {
               subTitle: 'see more',
             ),
             _hotSales(),
-            const CustomTitleWidget(
-              title: 'Best Seller',
-              subTitle: 'see more',
-            ),
+            // _serchFilter(),
+            // const CustomTitleWidget(
+            //   title: 'Best Seller',
+            //   subTitle: 'see more',
+            // ),
             _bestSellers(),
           ],
         ),

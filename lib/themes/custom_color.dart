@@ -9,3 +9,16 @@ class CustomColors {
   static const Color darkBlue = Color.fromRGBO(1, 0, 53, 1);
   static const Color lightGrey = Color.fromRGBO(204, 204, 204, 1);
 }
+
+// convert Hex color
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}

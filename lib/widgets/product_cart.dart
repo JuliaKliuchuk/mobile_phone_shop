@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_phone_shop/model/store_list.dart';
+import 'package:mobile_phone_shop/pages/product_details_page.dart';
 import 'package:mobile_phone_shop/services/http_service.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
 import 'package:mobile_phone_shop/widgets/custom_text_widget.dart';
@@ -137,7 +138,13 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                       ),
                     ],
                   ),
-                );
+                ).ripple(() {
+                  // Navigator.of(context).pushNamed('/detail');
+                  Route route = MaterialPageRoute(
+                      builder: (context) => ProductDetailsPage());
+                  Navigator.push(context, route);
+                  // onSelected(product);
+                }, borderRadius: BorderRadius.all(Radius.circular(20)));
               });
         } else if (snapshot.hasError) {
           return const Text('Error');

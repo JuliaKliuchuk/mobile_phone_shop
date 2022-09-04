@@ -6,7 +6,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   final routes = <String, WidgetBuilder>{
-    '/Home': (BuildContext context) => const MainPage()
+    '/MainPage': (BuildContext context) => const MainPage()
   };
 
   MyApp({super.key});
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Ecommerce',
       debugShowCheckedModeBanner: false,
       routes: routes,
-      home: const SplashPage(nextRoute: '/Home'),
+      home: const SplashPage(nextRoute: '/MainPage'),
     );
   }
 }

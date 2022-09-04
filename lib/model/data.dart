@@ -1,5 +1,11 @@
 import 'package:mobile_phone_shop/model/category.dart';
 
+class FilterOptions {
+  String title;
+  String value;
+  FilterOptions({required this.title, required this.value});
+}
+
 class AppData {
   static List<Category> categoryList = [
     Category(
@@ -42,5 +48,11 @@ class AppData {
         name: "Books",
         image: 'assets/icons/books.svg',
         isSelected: false),
+  ];
+
+  static List<FilterOptions> filterOptionsList = [
+    FilterOptions(title: "Brand", value: 'Samsung'),
+    FilterOptions(title: "Price", value: '\$300-\$500'),
+    FilterOptions(title: "Size", value: '4.5 to 5.5 inches'),
   ];
 }

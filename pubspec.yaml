@@ -72,6 +72,10 @@ flutter:
     - assets/icons/place.svg
     - assets/icons/filter.svg
     - assets/icons/search_filter.svg
+    - assets/icons/cpu.svg
+    - assets/icons/camera.svg
+    - assets/icons/ssd.svg
+    - assets/icons/sd.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
