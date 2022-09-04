@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_phone_shop/pages/cart_page.dart';
-import 'package:mobile_phone_shop/pages/favorite_page.dart';
-import 'package:mobile_phone_shop/pages/profile_page.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
@@ -20,13 +17,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   final Widget walletIcon = SvgPicture.asset('assets/icons/wallet.svg');
   final Widget favoriteIcon = SvgPicture.asset('assets/icons/favorite.svg');
   final Widget profileIcon = SvgPicture.asset('assets/icons/profile.svg');
-
-  //list of widgets to call ontap
-  final widgetOptions = [
-    const ChatPage(),
-    const FavoritePage(),
-    const ProflePage(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -65,28 +55,16 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
               ),
               IconButton(
                 enableFeedback: false,
-                onPressed: () {
-                  setState(() {
-                    selectedIndex = 0;
-                  });
-                },
+                onPressed: () {},
                 icon: walletIcon,
               ),
               IconButton(
                   enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = 1;
-                    });
-                  },
+                  onPressed: () {},
                   icon: favoriteIcon),
               IconButton(
                   enableFeedback: false,
-                  onPressed: () {
-                    setState(() {
-                      selectedIndex = 2;
-                    });
-                  },
+                  onPressed: () { },
                   icon: profileIcon),
             ],
           )),

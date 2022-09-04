@@ -135,11 +135,11 @@ class _HomePageState extends State<HomePage> {
               subTitle: 'see more',
             ),
             _hotSales(),
-            // _serchFilter(),
-            // const CustomTitleWidget(
-            //   title: 'Best Seller',
-            //   subTitle: 'see more',
-            // ),
+            _serchFilter(),
+            const CustomTitleWidget(
+              title: 'Best Seller',
+              subTitle: 'see more',
+            ),
             _bestSellers(),
           ],
         ),

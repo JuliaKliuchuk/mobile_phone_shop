@@ -141,10 +141,10 @@ class _ProductCardWidgetState extends State<ProductCardWidget> {
                 ).ripple(() {
                   // Navigator.of(context).pushNamed('/detail');
                   Route route = MaterialPageRoute(
-                      builder: (context) => ProductDetailsPage());
+                      builder: (context) => const ProductDetailsPage());
                   Navigator.push(context, route);
                   // onSelected(product);
-                }, borderRadius: BorderRadius.all(Radius.circular(20)));
+                }, borderRadius: const BorderRadius.all(Radius.circular(20)));
               });
         } else if (snapshot.hasError) {
           return const Text('Error');

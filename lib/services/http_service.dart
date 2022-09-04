@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:mobile_phone_shop/model/cart.dart';
 import 'package:mobile_phone_shop/model/phone.dart';
 import '../model/store_list.dart';
 
@@ -21,6 +22,17 @@ Future<PhoneDetails> fetchPhoneDetails() async {
       'https://run.mocky.io/v3/6c14c560-15c6-4248-b9d2-b4508df7d4f5'));
   if (response.statusCode == 200) {
     return PhoneDetails.fromJson(jsonDecode(response.body));
+  } else {
+    throw Exception('Failed to load album');
+  }
+}
+
+// get my cart
+Future<Cart> fetchMyCart() async {
+  final response = await http.get(Uri.parse(
+      'https://run.mocky.io/v3/53539a72-3c5f-4f30-bbb1-6ca10d42c149'));
+  if (response.statusCode == 200) {
+    return Cart.fromJson(jsonDecode(response.body));
   } else {
     throw Exception('Failed to load album');
   }

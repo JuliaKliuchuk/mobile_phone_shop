@@ -1,5 +1,6 @@
 class PhoneDetails {
   final String id;
+  // ignore: non_constant_identifier_names
   final String CPU;
   final String camera;
   final List<dynamic> capacity;
@@ -14,6 +15,7 @@ class PhoneDetails {
 
   PhoneDetails({
     required this.id,
+    // ignore: non_constant_identifier_names
     required this.CPU,
     required this.camera,
     required this.capacity,

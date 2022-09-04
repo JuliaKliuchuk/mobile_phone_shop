@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_phone_shop/model/phone.dart';
+import 'package:mobile_phone_shop/pages/cart_page.dart';
 import 'package:mobile_phone_shop/services/http_service.dart';
 import 'package:mobile_phone_shop/themes/custom_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
@@ -77,11 +76,13 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
             fontWeight: FontWeight.w500,
             fontSize: 18,
           ),
-          _icon(
-            Icons.shopping_bag_outlined,
-            iconColor: CustomColors.white,
-            buttonColor: CustomColors.orange,
-          ),
+          _icon(Icons.shopping_bag_outlined,
+              iconColor: CustomColors.white,
+              buttonColor: CustomColors.orange, onPressed: () {
+            Route route =
+                MaterialPageRoute(builder: (context) => const CartPage());
+            Navigator.push(context, route);
+          }),
         ],
       ),
     );
@@ -314,95 +315,95 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   Widget _tabDetails() {
-    return Center(
-      child: const Text('Details'),
+    return const Center(
+      child: Text('Details'),
     );
   }
 
   Widget _tabFeatures() {
-    return Center(
-      child: const Text('Features'),
+    return const Center(
+      child: Text('Features'),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: CustomColors.background,
-          titleSpacing: 0.0,
-          elevation: 0,
-          title: _appBar(),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-        ),
-        body: Center(
-          child: Container(
-            color: CustomColors.background,
-            margin: const EdgeInsets.only(top: 20),
-            child: FutureBuilder<PhoneDetails>(
-              future: fetchPhoneDetail,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 350,
-                          child: _carusel(snapshot.data as PhoneDetails),
+      appBar: AppBar(
+        backgroundColor: CustomColors.background,
+        titleSpacing: 0.0,
+        elevation: 0,
+        title: _appBar(),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: Container(
+          color: CustomColors.background,
+          margin: const EdgeInsets.only(top: 20),
+          child: FutureBuilder<PhoneDetails>(
+            future: fetchPhoneDetail,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 350,
+                        child: _carusel(snapshot.data as PhoneDetails),
+                      ),
+                      Container(
+                        height: 470,
+                        width: AppTheme.fullWidth(context),
+                        margin: const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 20),
+                        decoration: const BoxDecoration(
+                          color: CustomColors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(30)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Color.fromRGBO(75, 94, 143, 0.1),
+                                offset: Offset(0, -5),
+                                blurRadius: 20)
+                          ],
                         ),
-                        Container(
-                          height: 470,
-                          width: AppTheme.fullWidth(context),
-                          margin: const EdgeInsets.only(top: 10),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 20),
-                          decoration: const BoxDecoration(
-                            color: CustomColors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Color.fromRGBO(75, 94, 143, 0.1),
-                                  offset: Offset(0, -5),
-                                  blurRadius: 20)
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomTextWidget(
-                                    text: '${snapshot.data?.title}',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 24,
-                                  ),
-                                  _icon(
-                                    Icons.favorite_border_outlined,
-                                    iconColor: CustomColors.white,
-                                    buttonColor: CustomColors.darkBlue,
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: const [star, star, star, star, star],
-                              ),
-                              _tabs(snapshot.data as PhoneDetails)
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomTextWidget(
+                                  text: '${snapshot.data?.title}',
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 24,
+                                ),
+                                _icon(
+                                  Icons.favorite_border_outlined,
+                                  iconColor: CustomColors.white,
+                                  buttonColor: CustomColors.darkBlue,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: const [star, star, star, star, star],
+                            ),
+                            _tabs(snapshot.data as PhoneDetails)
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Text('${snapshot.error}');
+              }
+              return const CircularProgressIndicator();
+            },
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
