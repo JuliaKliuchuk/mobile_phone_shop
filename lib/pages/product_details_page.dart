@@ -229,26 +229,11 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              height: 40,
-              width: 150,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: data.color
-                    .map<Widget>((color) => _phoneColors(HexColor(color)))
-                    .toList(),
-              ),
-            ),
-            SizedBox(
-              height: 40,
-              width: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: data.capacity
-                    .map<Widget>((text) => _phoneCapasity(text))
-                    .toList(),
-              ),
-            ),
+            _phoneColors(HexColor(data.color[0]), isSelected: true),
+            _phoneColors(HexColor(data.color[1])),
+            const Spacer(),
+            _phoneCapasity(data.capacity[0], isSelected: true),
+            _phoneCapasity(data.capacity[1]),
           ],
         ),
         GestureDetector(
@@ -302,45 +287,52 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  Widget _phoneColors(Color color) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
-          child: const Icon(
-            Icons.check,
-            color: AppColors.white,
-          ),
-        ),
-      ],
+  Widget _phoneColors(Color color, {bool isSelected = false}) {
+    return Container(
+      height: 40,
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+      ),
+      child: isSelected
+          ? const Icon(Icons.check, color: AppColors.white)
+          : const Icon(null),
     );
   }
 
-  Widget _phoneCapasity(String text) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          margin: const EdgeInsets.only(right: 10),
-          alignment: Alignment.center,
-          width: 70,
-          height: 30,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: AppColors.orange,
-          ),
-          child: CustomTextWidget(
-            text: '$text GB',
-            color: AppColors.white,
-            fontSize: 13,
-          ),
-        ),
-      ],
-    );
+  Widget _phoneCapasity(String text, {bool isSelected = false}) {
+    return isSelected
+        ? Container(
+            margin: const EdgeInsets.only(right: 10),
+            alignment: Alignment.center,
+            width: 70,
+            height: 30,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: AppColors.orange,
+            ),
+            child: CustomTextWidget(
+              text: '$text GB',
+              color: AppColors.white,
+              fontSize: 13,
+            ),
+          )
+        : Container(
+            margin: const EdgeInsets.only(right: 10),
+            alignment: Alignment.center,
+            width: 70,
+            height: 30,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: AppColors.white,
+            ),
+            child: CustomTextWidget(
+              text: '$text GB',
+              color: AppColors.darkGrey,
+              fontSize: 13,
+            ),
+          );
   }
 
   Widget _tabDetails() {
@@ -387,7 +379,7 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
                                 child: _carusel(phoneDetail),
                               ),
                               Container(
-                                height: 421,
+                                height: 430,
                                 width: AppTheme.fullWidth(context),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 20),

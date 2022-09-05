@@ -7,6 +7,7 @@ class AppColors {
   static const Color white = Color.fromARGB(255, 255, 255, 255);
   static const Color darkBlue = Color.fromRGBO(1, 0, 53, 1);
   static const Color lightGrey = Color.fromRGBO(204, 204, 204, 1);
+  static const Color darkGrey = Color.fromRGBO(141, 141, 141, 1);
 }
 
 // convert Hex color
