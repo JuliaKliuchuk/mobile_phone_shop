@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_phone_shop/themes/custom_color.dart';
+import 'package:mobile_phone_shop/themes/app_color.dart';
 
 class CustomTextWidget extends StatelessWidget {
   final String text;
@@ -15,7 +15,7 @@ class CustomTextWidget extends StatelessWidget {
     required this.text,
     this.fontFamily = 'MarkPro',
     this.fontSize = 25,
-    this.color = CustomColors.darkBlue,
+    this.color = AppColors.darkBlue,
     this.fontWeight = FontWeight.w700,
     this.decoration,
     this.decorationColor,

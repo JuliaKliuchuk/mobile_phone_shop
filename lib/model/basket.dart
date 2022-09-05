@@ -23,14 +23,4 @@ class Basket {
         'price': price,
         'title': title,
       };
-
-  // @override
-  // factory Basket.fromJson(Map<String, dynamic> json) {
-  //   return Basket(
-  //     id: json['id'],
-  //     images: json['images'],
-  //     price: json['price'],
-  //     title: json['title'],
-  //   );
-  // }
 }

@@ -1,8 +1,6 @@
 import 'package:mobile_phone_shop/model/best_seller.dart';
 import 'package:mobile_phone_shop/model/home_store.dart';
 
-import 'interfaces/json_converter.dart';
-
 class StoreList {
   final List<HomeStore> homeStore;
   final List<BestSeller> bestSeller;
@@ -12,23 +10,23 @@ class StoreList {
     required this.bestSeller,
   });
 
-  factory StoreList.fromJson(Map<String, dynamic> json) {
-    return StoreList(
-      homeStore: StoreList.fromJsonList<HomeStore>(
-          json['home_store'], HomeStore.fromJson),
-      bestSeller: StoreList.fromJsonList<BestSeller>(
-          json['best_seller'], BestSeller.fromJson),
+  static StoreList initial() {
+    return const StoreList(
+      homeStore: [],
+      bestSeller: [],
     );
   }
 
-  static List<T> fromJsonList<T extends IJsonConverter>(
-      List<dynamic> json, T Function(Map<String, dynamic>) creator) {
-    List<T> result = <T>[];
+  StoreList.fromJson(Map<String, dynamic> json)
+      : homeStore = List<dynamic>.from(json['home_store'])
+            .map((i) => HomeStore.fromJson(i))
+            .toList(),
+        bestSeller = List<dynamic>.from(json['best_seller'])
+            .map((i) => BestSeller.fromJson(i))
+            .toList();
 
-    for (var elem in json) {
-      result.add(creator(elem));
-    }
-
-    return result;
-  }
+  Map<String, dynamic> toJson() => {
+        'homeStore': homeStore.map((item) => item.toJson()).toList(),
+        'bestSeller': bestSeller.map((item) => item.toJson()).toList(),
+      };
 }

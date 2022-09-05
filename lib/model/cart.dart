@@ -13,6 +13,15 @@ class Cart {
     required this.total,
   }) : super();
 
+  static Cart initial() {
+    return Cart(
+      id: '',
+      basket: [],
+      delivery: '',
+      total: 0,
+    );
+  }
+
   Cart.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         delivery = json['delivery'],
@@ -27,25 +36,4 @@ class Cart {
         'total': total,
         'basket': basket.map((item) => item.toJson()).toList(),
       };
-
-  // @override
-  // factory Cart.fromJson(Map<String, dynamic> json) {
-  //   return Cart(
-  //     id: json['id'],
-  //     delivery: json['delivery'],
-  //     total: json['total'],
-  //     basket: Cart.fromJsonList<Basket>(json['basket'], Basket.fromJson),
-  //   );
-  // }
-
-  // static List<T> fromJsonList<T extends IJsonConverter>(
-  //     List<dynamic> json, T Function(Map<String, dynamic>) creator) {
-  //   List<T> result = <T>[];
-
-  //   for (var elem in json) {
-  //     result.add(creator(elem));
-  //   }
-
-  //   return result;
-  // }
 }

@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_phone_shop/model/phone.dart';
+import 'package:mobile_phone_shop/model/data.dart';
+import 'package:mobile_phone_shop/model/phone_detail.dart';
 import 'package:mobile_phone_shop/pages/cart_page.dart';
-import 'package:mobile_phone_shop/services/http_service.dart';
-import 'package:mobile_phone_shop/themes/custom_color.dart';
+import 'package:mobile_phone_shop/themes/app_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
 import 'package:mobile_phone_shop/widgets/custom_text_widget.dart';
-import 'package:mobile_phone_shop/widgets/extentions.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsPage extends StatefulWidget {
   const ProductDetailsPage({
@@ -19,10 +19,6 @@ class ProductDetailsPage extends StatefulWidget {
 }
 
 class ProductDetailsPageState extends State<ProductDetailsPage> {
-  late Future<PhoneDetails> fetchPhoneDetail;
-  late final ValueChanged onSelected;
-  static bool isSelect = false;
-
   static const star = Icon(
     Icons.star,
     color: Color.fromRGBO(255, 184, 0, 1),
@@ -30,33 +26,34 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
     semanticLabel: 'star',
   );
 
-  @override
-  void initState() {
-    super.initState();
-    fetchPhoneDetail = fetchPhoneDetails();
-  }
-
-  Widget _icon(
-    IconData icon, {
-    Color iconColor = CustomColors.iconColor,
-    Color buttonColor = CustomColors.iconColor,
+  Widget _button(
+    String iconAsset, {
+    Color iconColor = AppColors.white,
+    double iconH = 10.0,
+    double iconW = 10.0,
+    Color buttonColor = AppColors.darkBlue,
     Function? onPressed,
   }) {
     return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
       height: 37,
       width: 37,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: buttonColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      child: FloatingActionButton(
+        onPressed: () {
+          onPressed!();
+        },
+        elevation: 0,
+        backgroundColor: buttonColor,
+        foregroundColor: iconColor,
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: SvgPicture.asset(
+          iconAsset,
+          color: iconColor,
+          width: iconH,
+          height: iconH,
+        ),
       ),
-      child: Icon(icon, color: iconColor, size: 15),
-    ).ripple(
-      () {
-        if (onPressed != null) {
-          onPressed();
-        }
-      },
     );
   }
 
@@ -66,75 +63,106 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          _icon(Icons.chevron_left,
-              iconColor: CustomColors.white,
-              buttonColor: CustomColors.darkBlue, onPressed: () {
-            Navigator.pop(context);
-          }),
+          _button(
+            'assets/icons/back.svg',
+            iconColor: AppColors.white,
+            iconH: 14.0,
+            iconW: 7.0,
+            buttonColor: AppColors.darkBlue,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
           const CustomTextWidget(
             text: 'Product Details',
             fontWeight: FontWeight.w500,
             fontSize: 18,
           ),
-          _icon(Icons.shopping_bag_outlined,
-              iconColor: CustomColors.white,
-              buttonColor: CustomColors.orange, onPressed: () {
-            Route route =
-                MaterialPageRoute(builder: (context) => const CartPage());
-            Navigator.push(context, route);
-          }),
+          _button(
+            'assets/icons/wallet.svg',
+            iconColor: AppColors.white,
+            iconH: 14.0,
+            iconW: 13.64,
+            buttonColor: AppColors.orange,
+            onPressed: () {
+              Route route =
+                  MaterialPageRoute(builder: (context) => const CartPage());
+              Navigator.push(context, route);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _carusel(PhoneDetails data) {
+  Widget _carusel(PhoneDetail data) {
     int count = data.images.length;
+
     return CarouselSlider.builder(
       itemCount: count,
       options: CarouselOptions(
         enableInfiniteScroll: true,
         enlargeCenterPage: true,
-        aspectRatio: 1.2,
-        viewportFraction: 0.7,
+        height: 300,
+        viewportFraction: 0.6,
       ),
       itemBuilder: (context, index, realIndex) {
         return Container(
-          decoration: BoxDecoration(
-            boxShadow: const [
-              BoxShadow(
+          decoration: const BoxDecoration(
+              boxShadow: [
+                BoxShadow(
                   color: Color.fromRGBO(55, 78, 136, 0.16),
-                  offset: Offset(0, 0),
-                  blurRadius: 20)
-            ],
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            image: DecorationImage(
-              image: NetworkImage('${data.images[index]}'),
-              fit: BoxFit.cover,
-            ),
+                  offset: Offset(0, 10),
+                  blurRadius: 20,
+                )
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: AppColors.white),
+          child: Image.network(
+            data.images[index],
+            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+              return child;
+            },
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(data.images[0]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
           ),
         );
       },
     );
   }
 
-  Widget _tabs(PhoneDetails data) {
+  Widget _tabs(PhoneDetail data) {
     return SizedBox(
-      height: 330,
+      height: 300,
       child: DefaultTabController(
         length: 3,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: CustomColors.white,
+            backgroundColor: AppColors.white,
             elevation: 0,
             flexibleSpace: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: const <Widget>[
                 TabBar(
                   isScrollable: true,
-                  indicatorColor: CustomColors.orange,
-                  labelColor: CustomColors.darkBlue,
+                  indicatorColor: AppColors.orange,
+                  labelColor: AppColors.darkBlue,
                   unselectedLabelColor: Color.fromRGBO(0, 0, 0, 0.5),
                   unselectedLabelStyle: TextStyle(
                     fontFamily: 'MarkPro',
@@ -174,15 +202,10 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
     );
   }
 
-  Widget _tabShop(PhoneDetails data) {
-    final Widget cpuIcon = SvgPicture.asset('assets/icons/cpu.svg');
-    final Widget cameraIcon = SvgPicture.asset('assets/icons/camera.svg');
-    final Widget ssdIcon = SvgPicture.asset('assets/icons/ssd.svg');
-    final Widget sdIcon = SvgPicture.asset('assets/icons/sd.svg');
-
+  Widget _tabShop(PhoneDetail data) {
     return Container(
-      padding: const EdgeInsets.only(top: 20),
-      // color: CustomColors.white,
+      padding: const EdgeInsets.only(top: 10),
+      color: AppColors.white,
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -228,30 +251,36 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
             ),
           ],
         ),
-        Container(
-          height: 54,
-          width: AppTheme.fullWidth(context),
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          margin: const EdgeInsets.only(top: 20),
-          decoration: const BoxDecoration(
-            color: CustomColors.orange,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                CustomTextWidget(
-                  text: 'Add to Cart',
-                  color: CustomColors.white,
-                  fontSize: 20,
-                ),
-                CustomTextWidget(
-                  text: '\$1,500.00',
-                  color: CustomColors.white,
-                  fontSize: 20,
-                )
-              ]),
-        )
+        GestureDetector(
+            onTap: () {
+              Route route =
+                  MaterialPageRoute(builder: (context) => const CartPage());
+              Navigator.push(context, route);
+            },
+            child: Container(
+              height: 54,
+              width: AppTheme.fullWidth(context),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              margin: const EdgeInsets.only(top: 20),
+              decoration: const BoxDecoration(
+                color: AppColors.orange,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    CustomTextWidget(
+                      text: 'Add to Cart',
+                      color: AppColors.white,
+                      fontSize: 20,
+                    ),
+                    CustomTextWidget(
+                      text: '\$1,500.00',
+                      color: AppColors.white,
+                      fontSize: 20,
+                    )
+                  ]),
+            )),
       ]),
     );
   }
@@ -284,7 +313,7 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           child: const Icon(
             Icons.check,
-            color: CustomColors.white,
+            color: AppColors.white,
           ),
         ),
       ],
@@ -302,11 +331,11 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
           height: 30,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            color: CustomColors.orange,
+            color: AppColors.orange,
           ),
           child: CustomTextWidget(
             text: '$text GB',
-            color: CustomColors.white,
+            color: AppColors.white,
             fontSize: 13,
           ),
         ),
@@ -315,95 +344,106 @@ class ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   Widget _tabDetails() {
-    return const Center(
-      child: Text('Details'),
-    );
+    return Center(
+        child: Container(
+      color: AppColors.white,
+      child: const Text('Details'),
+    ));
   }
 
   Widget _tabFeatures() {
-    return const Center(
-      child: Text('Features'),
-    );
+    return Center(
+        child: Container(
+      color: AppColors.white,
+      child: const Text('Features'),
+    ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: CustomColors.background,
-        titleSpacing: 0.0,
-        elevation: 0,
-        title: _appBar(),
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Container(
-          color: CustomColors.background,
-          margin: const EdgeInsets.only(top: 20),
-          child: FutureBuilder<PhoneDetails>(
-            future: fetchPhoneDetail,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 350,
-                        child: _carusel(snapshot.data as PhoneDetails),
-                      ),
-                      Container(
-                        height: 470,
-                        width: AppTheme.fullWidth(context),
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 20),
-                        decoration: const BoxDecoration(
-                          color: CustomColors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Color.fromRGBO(75, 94, 143, 0.1),
-                                offset: Offset(0, -5),
-                                blurRadius: 20)
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomTextWidget(
-                                  text: '${snapshot.data?.title}',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 24,
-                                ),
-                                _icon(
-                                  Icons.favorite_border_outlined,
-                                  iconColor: CustomColors.white,
-                                  buttonColor: CustomColors.darkBlue,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: const [star, star, star, star, star],
-                            ),
-                            _tabs(snapshot.data as PhoneDetails)
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          titleSpacing: 0.0,
+          elevation: 0,
+          title: _appBar(),
+          automaticallyImplyLeading: false,
+          centerTitle: true,
         ),
-      ),
-    );
+        body: Consumer<PhoneDetail>(
+          builder: (context, PhoneDetail phoneDetail, _) {
+            return Column(
+              children: [
+                Expanded(
+                  child: phoneDetail.images.isEmpty
+                      ? const Center(child: CircularProgressIndicator())
+                      : SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                // alignment: Alignment.topCenter,
+                                height: 350,
+                                padding: const EdgeInsets.only(top: 10),
+                                child: _carusel(phoneDetail),
+                              ),
+                              Container(
+                                height: 421,
+                                width: AppTheme.fullWidth(context),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 20),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.white,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(30)),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: Color.fromRGBO(75, 94, 143, 0.1),
+                                        offset: Offset(0, -5),
+                                        blurRadius: 20)
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CustomTextWidget(
+                                          text: phoneDetail.title,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 24,
+                                        ),
+                                        _button(
+                                          'assets/icons/favorite.svg',
+                                          iconColor: AppColors.white,
+                                          iconH: 13.0,
+                                          iconW: 14.0,
+                                          buttonColor: AppColors.darkBlue,
+                                          onPressed: () {},
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: const [
+                                        star,
+                                        star,
+                                        star,
+                                        star,
+                                        star
+                                      ],
+                                    ),
+                                    _tabs(phoneDetail)
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                ),
+              ],
+            );
+          },
+        ));
   }
 }

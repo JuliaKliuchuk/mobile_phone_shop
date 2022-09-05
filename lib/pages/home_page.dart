@@ -3,24 +3,50 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_phone_shop/model/data.dart';
-import 'package:mobile_phone_shop/themes/custom_color.dart';
+import 'package:mobile_phone_shop/provider/filter_provider.dart';
+import 'package:mobile_phone_shop/themes/app_color.dart';
 import 'package:mobile_phone_shop/themes/theme.dart';
+import 'package:mobile_phone_shop/widgets/bootom_navigation_bar.dart';
 import 'package:mobile_phone_shop/widgets/custom_titile_widget.dart';
 import 'package:mobile_phone_shop/widgets/filter.dart';
 import 'package:mobile_phone_shop/widgets/hot_sales_widget.dart';
 import 'package:mobile_phone_shop/widgets/product_cart.dart';
 import 'package:mobile_phone_shop/widgets/select_category.dart';
+import 'package:mobile_phone_shop/widgets/select_location.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, this.title}) : super(key: key);
-  final String? title;
+  const HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  Widget _categoryWidget() {
+  Widget _appBar(FilterProvider filter) {
+    return SizedBox(
+      width: AppTheme.fullWidth(context),
+      child: Row(
+        children: <Widget>[
+          const Spacer(),
+          const SelectLocation(),
+          const Spacer(),
+          IconButton(
+            enableFeedback: false,
+            onPressed: () {
+              filter.viewFilter();
+            },
+            icon: filterIcon,
+            color: AppColors.iconColor,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _productCategory() {
     return SizedBox(
       width: AppTheme.fullWidth(context),
       height: 130,
@@ -29,13 +55,13 @@ class _HomePageState extends State<HomePage> {
         children: AppData.categoryList
             .map(
               (category) => SelectCategory(
-                model: category,
+                category: category,
                 onSelected: (model) {
                   setState(() {
                     for (var item in AppData.categoryList) {
                       item.isSelected = false;
                     }
-                    model.isSelected = true;
+                    category.isSelected = true;
                   });
                 },
               ),
@@ -50,7 +76,7 @@ class _HomePageState extends State<HomePage> {
         SvgPicture.asset('assets/icons/search_filter.svg');
 
     return Container(
-      margin: AppTheme.padding,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Row(
         children: <Widget>[
           Expanded(
@@ -59,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               alignment: Alignment.center,
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
-                color: CustomColors.white,
+                color: AppColors.white,
               ),
               child: const TextField(
                 decoration: InputDecoration(
@@ -68,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                     hintStyle: TextStyle(fontSize: 12),
                     contentPadding:
                         EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
-                    prefixIcon: Icon(Icons.search, color: CustomColors.orange)),
+                    prefixIcon: Icon(Icons.search, color: AppColors.orange)),
               ),
             ),
           ),
@@ -77,7 +103,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               shape: const CircleBorder(),
-              backgroundColor: CustomColors.orange,
+              backgroundColor: AppColors.orange,
             ),
             child: IconButton(
               iconSize: 15.0,
@@ -102,8 +128,8 @@ class _HomePageState extends State<HomePage> {
   Widget _bestSellers() {
     return SizedBox(
         width: AppTheme.fullWidth(context),
-        height: 500,
-        child: const ProductCardWidget());
+        height: 520,
+        child: const ProductCard());
   }
 
   Widget _serchFilter() {
@@ -115,35 +141,53 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        dragStartBehavior: DragStartBehavior.down,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            const CustomTitleWidget(
-              title: 'Select Category',
-              subTitle: 'view all',
-            ),
-            _categoryWidget(),
-            _search(),
-            const CustomTitleWidget(
-              title: 'Hot sales',
-              subTitle: 'see more',
-            ),
-            _hotSales(),
-            _serchFilter(),
-            const CustomTitleWidget(
-              title: 'Best Seller',
-              subTitle: 'see more',
-            ),
-            _bestSellers(),
-          ],
+    FilterProvider filter = Provider.of<FilterProvider>(context);
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        titleSpacing: 0.0,
+        elevation: 0,
+        title: _appBar(filter),
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          dragStartBehavior: DragStartBehavior.down,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              const CustomTitleWidget(
+                title: 'Select Category',
+                subTitle: 'view all',
+              ),
+              _productCategory(),
+              _search(),
+              const CustomTitleWidget(
+                title: 'Hot sales',
+                subTitle: 'see more',
+              ),
+              _hotSales(),
+              Consumer<FilterProvider>(
+                builder: (context, value, child) {
+                  return filter.isShowFilter
+                      ? _serchFilter()
+                      : const SizedBox();
+                },
+              ),
+              const CustomTitleWidget(
+                title: 'Best Seller',
+                subTitle: 'see more',
+              ),
+              _bestSellers(),
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }

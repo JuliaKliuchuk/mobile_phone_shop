@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_phone_shop/themes/custom_color.dart';
-import 'package:mobile_phone_shop/themes/theme.dart';
+import 'package:mobile_phone_shop/themes/app_color.dart';
 import 'package:mobile_phone_shop/widgets/custom_text_widget.dart';
 
 class CustomTitleWidget extends StatelessWidget {
@@ -13,18 +12,21 @@ class CustomTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: AppTheme.padding,
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
           CustomTextWidget(
             text: title,
           ),
           const Spacer(),
-          CustomTextWidget(
-            text: subTitle ?? '',
-            color: CustomColors.orange,
-            fontWeight: FontWeight.w400,
-            fontSize: 15,
+          TextButton(
+            onPressed: () {},
+            child: CustomTextWidget(
+              text: subTitle ?? '',
+              color: AppColors.orange,
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+            ),
           ),
         ],
       ),

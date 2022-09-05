@@ -1,6 +1,4 @@
-import 'package:mobile_phone_shop/model/interfaces/json_converter.dart';
-
-class BestSeller implements IJsonConverter {
+class BestSeller {
   final int id;
   final bool isFavorites; // is_favorites
   final String title;
@@ -17,14 +15,20 @@ class BestSeller implements IJsonConverter {
     required this.picture,
   }) : super();
 
-  factory BestSeller.fromJson(Map<String, dynamic> json) {
-    return BestSeller(
-      id: json['id'],
-      isFavorites: json['is_favorites'],
-      title: json['title'],
-      priceWithoutDiscount: json['price_without_discount'],
-      discountPrice: json['discount_price'],
-      picture: json['picture'],
-    );
-  }
+  BestSeller.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        isFavorites = json['is_favorites'],
+        title = json['title'],
+        priceWithoutDiscount = json['price_without_discount'],
+        discountPrice = json['discount_price'],
+        picture = json['picture'];
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'isFavorites': isFavorites,
+        'title': title,
+        'priceWithoutDiscount': priceWithoutDiscount,
+        'discountPrice': discountPrice,
+        'picture': picture,
+      };
 }
