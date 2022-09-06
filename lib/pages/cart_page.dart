@@ -75,9 +75,7 @@ class _CartPageState extends State<CartPage> {
             iconH: 17.0,
             iconW: 14.0,
             buttonColor: AppColors.orange,
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () {},
           ),
         ],
       ),

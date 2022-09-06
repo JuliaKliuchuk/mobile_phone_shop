@@ -13,7 +13,7 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  Widget _iconIsLike(IconData icon, {Function? onPressed}) {
+  Widget _iconIsLike(IconData icon) {
     return Container(
       height: 25,
       width: 25,
