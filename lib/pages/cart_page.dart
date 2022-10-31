@@ -84,7 +84,7 @@ class _CartPageState extends State<CartPage> {
 
   Widget _basketItem(Basket data) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      margin: const EdgeInsets.only(left: 10, top: 20, bottom: 20),
       width: AppTheme.fullWidth(context),
       height: 88,
       child: Row(
@@ -102,8 +102,9 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
           ),
-          SizedBox(
-            width: 153,
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            width: 125,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -126,7 +127,6 @@ class _CartPageState extends State<CartPage> {
           ),
           Container(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
-            margin: const EdgeInsets.only(left: 10),
             width: 26,
             height: 68,
             decoration: const BoxDecoration(
@@ -141,12 +141,13 @@ class _CartPageState extends State<CartPage> {
                   child: SvgPicture.asset('assets/icons/minus.svg'),
                 ),
                 const SizedBox(
-                    child: CustomTextWidget(
-                  text: '2',
-                  color: AppColors.white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                )),
+                  child: CustomTextWidget(
+                    text: '2',
+                    color: AppColors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                  ),
+                ),
                 SizedBox(
                   child: SvgPicture.asset('assets/icons/plus.svg'),
                 ),
@@ -154,12 +155,13 @@ class _CartPageState extends State<CartPage> {
             ),
           ),
           IconButton(
-              onPressed: () {},
-              icon: SvgPicture.asset(
-                'assets/icons/delete.svg',
-                width: 14.75,
-                height: 16,
-              ))
+            onPressed: () {},
+            icon: SvgPicture.asset(
+              'assets/icons/delete.svg',
+              width: 14,
+              height: 16,
+            ),
+          ),
         ],
       ),
     );
@@ -188,9 +190,8 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
             Container(
-              height: 595,
+              height: 479,
               width: AppTheme.fullWidth(context),
-              margin: const EdgeInsets.only(top: 20),
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
                 color: AppColors.darkBlue,
@@ -220,7 +221,6 @@ class _CartPageState extends State<CartPage> {
                                             .toList(),
                                       ),
                                     ),
-                                    const Spacer(),
                                     const Divider(
                                       thickness: 2,
                                       endIndent: 0,

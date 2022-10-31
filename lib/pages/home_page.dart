@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+          // physics: const BouncingScrollPhysics(),
           dragStartBehavior: DragStartBehavior.down,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

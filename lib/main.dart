@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_phone_shop/model/cart.dart';
 import 'package:mobile_phone_shop/model/phone_detail.dart';
@@ -16,6 +19,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HttpOverrides.global = MyHttpOverrides();
     return MaterialApp(
       title: 'Ecommerce',
       debugShowCheckedModeBanner: false,
@@ -24,6 +28,10 @@ class MyApp extends StatelessWidget {
           FutureProvider<StoreList>(
             initialData: StoreList.initial(),
             create: (_) async => HomeProvider().loadStoreList(),
+            catchError: (context, error) {
+              log('error $error');
+              return StoreList.initial();
+            },
           ),
           ChangeNotifierProvider<FilterProvider>.value(value: FilterProvider()),
           FutureProvider<PhoneDetail>(
@@ -38,5 +46,14 @@ class MyApp extends StatelessWidget {
         child: const MainPage(),
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
